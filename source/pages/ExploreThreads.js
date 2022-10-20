@@ -42,7 +42,9 @@ const ExploreThreads = ({ }) => {
   const topics = useSelector(state => state.topics);
 
   useEffect(() => {
-    dispatch(fetchNextTopic());
+    if (!topics.length) {
+      dispatch(fetchNextTopic());
+    }
   }, []);
 
 

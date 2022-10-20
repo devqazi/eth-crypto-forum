@@ -71,7 +71,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
       ...state,
       activeTopic: payload,
       comments: [],
-      topics: payload === -1 ? [] : state.topics,
     };
   }
   return state;

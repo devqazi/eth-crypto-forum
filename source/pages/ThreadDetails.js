@@ -13,7 +13,6 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     padding: theme.spacing(2, 4),
     gap: theme.spacing(2),
-    justifyContent: 'space-between',
   },
   card: {
     padding: theme.spacing(4),
@@ -61,7 +60,7 @@ const ThreadDetails = () => {
   return (
     <div>
       <div className={classes.header}>
-        <IconButton size="small" onClick={handleGoBack}>
+        <IconButton size="small" color="primary" variant="contained" onClick={handleGoBack}>
           <ArrowBack />
         </IconButton>
         <Typography variant="h6">Discussion </Typography>
@@ -109,7 +108,7 @@ const ThreadDetails = () => {
         {busy ? (
           <CircularProgress color="primary" style={{ alignSelf: 'center' }} size={64} /> 
         ) : (
-          <Button style={{ alignSelf: 'center' }} variant="contained" onClick={handleMoreComments} >Load More Topics</Button>
+          <Button style={{ alignSelf: 'center' }} variant="contained" onClick={handleMoreComments} >Load More Comments</Button>
         )}
       </div>
     </div>
