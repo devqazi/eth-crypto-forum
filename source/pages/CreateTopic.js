@@ -24,6 +24,7 @@ const CreateTopic = ({ open, onClose }) => {
   const handlePost = () => {
     if (title && message) {
       dispatch(createTopic(title, message));
+      onClose();
     }
   }
 

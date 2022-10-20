@@ -1,9 +1,9 @@
+import { format } from "date-fns";
 import { ethers } from "ethers";
-import { useEffect, useState } from "react";
 import { Actions } from "../redux-store";
 import contractJson from './compiled-contract.json'; 
 
-const CONTRACT_ADDRESS = '0x2A6225E86b61E0FA1ACBc977833C456D6695D825';
+const CONTRACT_ADDRESS = '0x920e571fcC519c828a873F660D27571F0f0F82D6';
 const CONTRACT_ABI = contractJson.abi;
 
 let contractInstance = null;
@@ -76,6 +76,23 @@ const createTopic = (title, message) => async (dispatch) => {
   }
 }
 
+const createComment = () => async (dispatch, getState) => {
+  try {
+    dispatch(isBusy());
+    const { activeTopic } = getState();
+    const { ethereum } = window;
+    if (ethereum) {
+      let txn = await contractInstance.createComment(message, activeTopic);
+      await txn.wait();
+      dispatch({ type: Actions.COMMENT_CREATED, payload: { message } });
+    }
+  } catch (error) {
+    
+  } finally {
+    dispatch(isNotBusy());
+  }
+}
+
 // currying
 const fetchNextTopic = () => async (dispatch, getState) => {
   try {
@@ -87,25 +104,52 @@ const fetchNextTopic = () => async (dispatch, getState) => {
       let result = await contractInstance.topics(topicIndex);
       if (result) {
         const topic = {
+          id: result.id.toNumber(),
           title: result.title,
           message: result.message,
-          author: result.author.slice(0,6) + '...',
-          createdAt: result.createdAt.toNumber(),
+          author: result.author.slice(0,6) + '...' + result.author.slice(-4),
+          createdAt: format(result.createdAt.toNumber(), 'dd MMM yyyy'),
         }
         dispatch({ type: Actions.TOPIC_FETCHED, payload: topic });
       }
     }
   } catch (error) {
-    
+    console.log(error);
   } finally {
     dispatch(isNotBusy());
   }
 }
 
+const fetchNextComment = () => async (dispatch, getState) => {
+  try {
+    dispatch(isBusy());
+    const { activeTopic, comments } = getState();
+    const offset = comments.length;
+    const { ethereum } = window;
+    if (ethereum) {
+      let result = await contractInstance.getNextComment(activeTopic, offset);
+      if (result) {
+        const data = {
+          id: result.id.toNumber(),
+          message: result.message,
+          author: result.author.slice(0,6) + '...' + result.author.slice(-4),
+          createdAt: format(result.createdAt.toNumber(), 'dd MMM yyyy'),
+        }
+        dispatch({ type: Actions.COMMENT_FETCHED, payload: data });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    dispatch(isNotBusy());
+  }
+}
 
 export {
   setNickname,
   getNickname,
   createTopic,
+  createComment,
   fetchNextTopic,
+  fetchNextComment,
 }

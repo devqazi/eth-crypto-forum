@@ -36,22 +36,40 @@ const rootReducer = (state = initialState, { type, payload }) => {
   } else if (type === Actions.TOPIC_CREATED) {
     let newTopic = {
       ...payload,
-      autor: state.address,
-      createdAt: Math.floor(Date.now() / 1000),
+      autor: state.address.slice(0,6) + '...' + state.address.slice(-4),
+      createdAt: format(Date.now(), 'dd MMM yyyy'),
     }
     return {
       ...state, 
       topics: state.topics.concat([newTopic]),
     }
-  } else if (type === Actions.TOPIC_FETCHED) {
+  } else if (type === Actions.COMMENT_CREATED) {
+    let newComment = {
+      ...payload,
+      topicId: state.activeTopic,
+      autor: state.address.slice(0,6) + '...' + state.address.slice(-4),
+      createdAt: format(Date.now(), 'dd MMM yyyy'),
+    }
+    return {
+      ...state,
+      topics: state.topics.concat([newComment]),
+    }
+  }
+  else if (type === Actions.TOPIC_FETCHED) {
     return {
       ...state, 
       topics: state.topics.concat([payload]),
+    }
+  } else if (type === Actions.COMMENT_FETCHED) {
+    return {
+      ...state, 
+      comments: state.comments.concat([payload]),
     }
   } else if (type === Actions.GOTO_TOPIC) {
     return {
       ...state,
       activeTopic: payload,
+      comments: [],
     };
   }
   return state;

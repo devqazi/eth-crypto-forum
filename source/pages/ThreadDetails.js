@@ -1,7 +1,9 @@
 import { Button, CircularProgress, Divider, IconButton, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
 import { AccessTimeOutlined, ArrowBack, PersonOutline } from '@material-ui/icons';
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchNextComment } from '../hooks/contractHandlers';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -39,9 +41,14 @@ const ThreadDetails = () => {
   const comments = useSelector(state => state.comments);
   const busy = useSelector(state => state.busy);
   const [comment, setComment] = useState('');
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchNextComment());
+  }, []);
 
   const handleMoreComments = () => {
-
+    dispatch(fetchNextComment());
   }
   return (
     <div>
@@ -80,7 +87,7 @@ const ThreadDetails = () => {
             onChange={e => setComment(e.target.value)}
           />
           <div className={classes.controls}>
-            <Button style={{ marginLeft: 'auto' }}  variant="outlined" color="primary" >
+            <Button style={{ marginLeft: 'auto' }}  variant="contained" color="primary" >
               Post Comment
             </Button>
           </div>
