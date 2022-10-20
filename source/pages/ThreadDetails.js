@@ -3,7 +3,7 @@ import { AccessTimeOutlined, ArrowBack, PersonOutline } from '@material-ui/icons
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchNextComment } from '../hooks/contractHandlers';
+import { createComment, fetchNextComment } from '../hooks/contractHandlers';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -50,6 +50,10 @@ const ThreadDetails = () => {
   const handleMoreComments = () => {
     dispatch(fetchNextComment());
   }
+
+  const handlePostComment = () => {
+    dispatch(createComment(message));
+  }
   return (
     <div>
       <div className={classes.header}>
@@ -87,17 +91,17 @@ const ThreadDetails = () => {
             onChange={e => setComment(e.target.value)}
           />
           <div className={classes.controls}>
-            <Button style={{ marginLeft: 'auto' }}  variant="contained" color="primary" >
+            <Button style={{ marginLeft: 'auto' }}  variant="contained" color="primary" onClick={handlePostComment}>
               Post Comment
             </Button>
           </div>
           <Typography gutterBottom variant="h5">All Comments {comments.length}</Typography>
-          {comments.map(item => (
-            <div className={classes.comment}>
+          {comments.map((item, index) => (
+            <div className={classes.comment} key={index}>
               <div>
-                <b>anan-20202</b> - <i>22 Jan 2022</i>
+                <b>{item.author}</b> - <i>{item.createdAt}</i>
               </div>
-              <Typography>This is a random coment by someone  </Typography>
+              <Typography>{item.message}</Typography>
             </div>
           ))}
         </Paper>

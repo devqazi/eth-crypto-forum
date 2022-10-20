@@ -64,7 +64,7 @@ const ExploreThreads = ({ }) => {
       </div>
       <div className={classes.body}>
         {topics.map((topicItem, index) => (
-          <Paper className={classes.card} key={topicItem.author + topicItem.createdAt}>
+          <Paper className={classes.card} key={index}>
             <Typography gutterBottom variant="h5">{topicItem.title}</Typography>
             <Typography gutterBottom variant="body1">{topicItem.message}</Typography>
             <div className={classes.controls}>

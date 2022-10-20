@@ -4,8 +4,6 @@ pragma solidity ^0.8.0;
 
 contract CryptoForum {
 
-  event TopicCreated(address sender, uint256 topicId);
-  event CommentCreated(address sender, uint256 topicId, uint256 commentId);
   struct Topic {
     uint256 id;
     string title;
@@ -58,16 +56,19 @@ contract CryptoForum {
   function getNextComment (uint256 _topicId, uint256 offset) public view returns (Comment memory) {
     Comment memory foundComment;
     uint256 counter = 0;
+    bool found = false;
     for (uint256 i = 0; i < comments.length; i++ ) {
       if (comments[i].topicId == _topicId) {
         if (counter == offset) {
           foundComment = comments[i];
+          found = true;
           break;
         } else {
           counter++;
         }
       }
     }
+    require(found == true);
     return foundComment;
   }
 

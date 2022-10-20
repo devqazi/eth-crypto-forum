@@ -76,7 +76,7 @@ const createTopic = (title, message) => async (dispatch) => {
   }
 }
 
-const createComment = () => async (dispatch, getState) => {
+const createComment = (message) => async (dispatch, getState) => {
   try {
     dispatch(isBusy());
     const { activeTopic } = getState();
@@ -128,6 +128,7 @@ const fetchNextComment = () => async (dispatch, getState) => {
     const { ethereum } = window;
     if (ethereum) {
       let result = await contractInstance.getNextComment(activeTopic, offset);
+      console.log(result);
       if (result) {
         const data = {
           id: result.id.toNumber(),

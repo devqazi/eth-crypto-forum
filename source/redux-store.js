@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { applyMiddleware, createStore } from "redux";
 import thunk from "redux-thunk";
 
@@ -5,7 +6,7 @@ import thunk from "redux-thunk";
 const Actions = {
   WALLET_CONNECTED: 'wallet-connected',
   NICKNAME_UPDATED: 'set-nickname',
-  TOPIC_CREATED: 'post-created',
+  TOPIC_CREATED: 'topic-created',
   COMMENT_CREATED: 'comment-created',
   TOPIC_FETCHED: 'topic-fetched',
   COMMENT_FETCHED: 'comment-fetched',
@@ -52,7 +53,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
     }
     return {
       ...state,
-      topics: state.topics.concat([newComment]),
+      comments: state.comments.concat([newComment]),
     }
   }
   else if (type === Actions.TOPIC_FETCHED) {
