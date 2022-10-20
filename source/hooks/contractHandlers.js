@@ -108,7 +108,7 @@ const fetchNextTopic = () => async (dispatch, getState) => {
           title: result.title,
           message: result.message,
           author: result.author.slice(0,6) + '...' + result.author.slice(-4),
-          createdAt: format(result.createdAt.toNumber(), 'dd MMM yyyy'),
+          createdAt: format(result.createdAt.toNumber() * 1000, 'dd MMM yyyy'),
         }
         dispatch({ type: Actions.TOPIC_FETCHED, payload: topic });
       }
@@ -128,13 +128,12 @@ const fetchNextComment = () => async (dispatch, getState) => {
     const { ethereum } = window;
     if (ethereum) {
       let result = await contractInstance.getNextComment(activeTopic, offset);
-      console.log(result);
-      if (result) {
+      if (result.message) {
         const data = {
           id: result.id.toNumber(),
           message: result.message,
           author: result.author.slice(0,6) + '...' + result.author.slice(-4),
-          createdAt: format(result.createdAt.toNumber(), 'dd MMM yyyy'),
+          createdAt: format(result.createdAt.toNumber() * 1000, 'dd MMM yyyy'),
         }
         dispatch({ type: Actions.COMMENT_FETCHED, payload: data });
       }

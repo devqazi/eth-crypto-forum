@@ -48,7 +48,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
     let newComment = {
       ...payload,
       topicId: state.activeTopic,
-      autor: state.address.slice(0,6) + '...' + state.address.slice(-4),
+      author: state.address.slice(0,6) + '...' + state.address.slice(-4),
       createdAt: format(Date.now(), 'dd MMM yyyy'),
     }
     return {

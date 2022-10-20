@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createComment, fetchNextComment } from '../hooks/contractHandlers';
+import { Actions } from '../redux-store';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -52,18 +53,18 @@ const ThreadDetails = () => {
   }
 
   const handlePostComment = () => {
-    dispatch(createComment(message));
+    dispatch(createComment(comment));
+  }
+  const handleGoBack = () => {
+    dispatch({ type: Actions.GOTO_TOPIC, payload: -1 });
   }
   return (
     <div>
       <div className={classes.header}>
-        <IconButton size="small">
+        <IconButton size="small" onClick={handleGoBack}>
           <ArrowBack />
         </IconButton>
         <Typography variant="h6">Discussion </Typography>
-        <Button color="primary" variant="contained" onClick={() => setCreateDialog(true)}>
-          Somehting
-        </Button>
       </div>
       <div className={classes.body}>
         <Paper className={classes.card} key={topicItem.author + topicItem.createdAt}>
@@ -91,7 +92,7 @@ const ThreadDetails = () => {
             onChange={e => setComment(e.target.value)}
           />
           <div className={classes.controls}>
-            <Button style={{ marginLeft: 'auto' }}  variant="contained" color="primary" onClick={handlePostComment}>
+            <Button disabled={busy} style={{ marginLeft: 'auto' }}  variant="contained" color="primary" onClick={handlePostComment}>
               Post Comment
             </Button>
           </div>
