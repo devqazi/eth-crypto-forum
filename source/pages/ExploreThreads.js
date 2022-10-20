@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Chip, CircularProgress, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
-import { AccessTimeOutlined, InfoOutlined, PersonOutline, WatchOutlined } from '@material-ui/icons';
+import { AccessTimeOutlined, InfoOutlined, PersonOutline, StarRateTwoTone, WatchOutlined } from '@material-ui/icons';
 import CreateTopic from './CreateTopic';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchNextTopic, getNickname, setNickname } from '../hooks/contractHandlers';
 import { Actions } from '../redux-store';
+import UpdateNickname from './UpdateNickname';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -14,7 +15,6 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     padding: theme.spacing(2, 4),
     gap: theme.spacing(2),
-    justifyContent: 'space-between',
   },
   card: {
     padding: theme.spacing(4),
@@ -38,8 +38,10 @@ const ExploreThreads = ({ }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [createDialog, setCreateDialog] = useState(false);
+  const [nickDialog, setNickDialog] = useState(false);
   const busy = useSelector(state => state.busy);
   const topics = useSelector(state => state.topics);
+  const nick = useSelector(state => state.nickname || state.address);
 
   useEffect(() => {
     if (!topics.length) {
@@ -59,7 +61,11 @@ const ExploreThreads = ({ }) => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Typography variant="h6">Explore and Participate in Discussions</Typography>
+        <PersonOutline />
+        <Typography variant="subtitle1">{nick}</Typography>
+        <Button onClick={() => setNickDialog(true)} style={{ marginRight: 'auto' }} variant="outlined" color="primary" size="small">
+          Set Nickname
+        </Button>
         <Button disabled={busy} color="primary" variant="contained" onClick={() => setCreateDialog(true)}>
           Create New Topic
         </Button>
@@ -86,6 +92,7 @@ const ExploreThreads = ({ }) => {
           <Button style={{ alignSelf: 'center' }} variant="contained" onClick={handleMoreTopics} >Load More Topics</Button>
         )}
         <CreateTopic open={createDialog} onClose={() => setCreateDialog(false)} />
+        <UpdateNickname open={nickDialog} onClose={() => setNickDialog(false)} />
       </div>
     </div>
   )

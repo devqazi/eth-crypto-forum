@@ -27,8 +27,6 @@ const App = () => {
     checkIfWalletIsConnected();
   }, []);
 
- 
-
   const connectWallet = async () => {
     try {
       const { ethereum } = window;

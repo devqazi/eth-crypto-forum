@@ -152,4 +152,5 @@ export {
   createComment,
   fetchNextTopic,
   fetchNextComment,
+  contractInstance,
 }
