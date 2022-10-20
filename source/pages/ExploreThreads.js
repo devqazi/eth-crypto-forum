@@ -60,7 +60,7 @@ const ExploreThreads = ({ }) => {
     <div className={classes.root}>
       <div className={classes.header}>
         <Typography variant="h6">Explore and Participate in Discussions</Typography>
-        <Button color="primary" variant="contained" onClick={() => setCreateDialog(true)}>
+        <Button disabled={busy} color="primary" variant="contained" onClick={() => setCreateDialog(true)}>
           Create New Topic
         </Button>
       </div>
