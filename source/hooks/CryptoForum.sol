@@ -10,6 +10,7 @@ contract CryptoForum {
     string message;
     address author;
     uint createdAt;
+    string attachment;
   }
 
   mapping(address => string) public nicknames;
@@ -31,13 +32,14 @@ contract CryptoForum {
     nicknames[msg.sender] = desiredNickname;
   }
 
-  function createTopic(string memory _title, string memory _message ) public onlyKilobyte(_message) {
+  function createTopic(string memory _title, string memory _message, string memory _attachment ) public onlyKilobyte(_message) {
     Topic memory newTopic = Topic({
       id: topics.length,
       title: _title,
       message: _message,
       author: msg.sender,
-      createdAt: block.timestamp 
+      createdAt: block.timestamp, 
+      attachment: _attachment
     });
     topics.push(newTopic);
   }
