@@ -38,7 +38,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
     let newTopic = {
       ...payload,
       autor: state.address.slice(0,6) + '...' + state.address.slice(-4),
-      createdAt: format(Date.now(), 'dd MMM yyyy'),
+      createdAt: format(Date.now(), 'dd MMM yyyy mm:ss'),
     }
     return {
       ...state, 
@@ -49,7 +49,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
       ...payload,
       topicId: state.activeTopic,
       author: state.address.slice(0,6) + '...' + state.address.slice(-4),
-      createdAt: format(Date.now(), 'dd MMM yyyy'),
+      createdAt: format(Date.now(), 'dd MMM yyyy mm:ss'),
     }
     return {
       ...state,

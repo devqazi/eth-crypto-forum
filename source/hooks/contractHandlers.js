@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { Actions } from "../redux-store";
 import contractJson from './compiled-contract.json'; 
 
-const CONTRACT_ADDRESS = '0x920e571fcC519c828a873F660D27571F0f0F82D6';
+const CONTRACT_ADDRESS = '0x228B5d757A052E97C7C003017752b8055b0895ba';
 const CONTRACT_ABI = contractJson.abi;
 
 let contractInstance = null;
@@ -60,14 +60,14 @@ const setNickname = (desiredNickname) => async (dispatch) => {
   }
 }
 
-const createTopic = (title, message) => async (dispatch) => {
+const createTopic = (title, message, attachment) => async (dispatch) => {
   try {
     dispatch(isBusy());
     const { ethereum } = window;
     if (ethereum) {
-      let txn = await contractInstance.createTopic(title, message);
+      let txn = await contractInstance.createTopic(title, message, attachment);
       await txn.wait();
-      dispatch({ type: Actions.TOPIC_CREATED, payload: { title, message } });
+      dispatch({ type: Actions.TOPIC_CREATED, payload: { title, message, attachment } });
     }
   } catch (error) {
     
@@ -107,6 +107,7 @@ const fetchNextTopic = () => async (dispatch, getState) => {
           id: result.id.toNumber(),
           title: result.title,
           message: result.message,
+          attachment: result.attachment,
           author: result.author.slice(0,6) + '...' + result.author.slice(-4),
           createdAt: format(result.createdAt.toNumber() * 1000, 'dd MMM yyyy'),
         }
