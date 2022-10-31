@@ -109,7 +109,7 @@ const fetchNextTopic = () => async (dispatch, getState) => {
           message: result.message,
           attachment: result.attachment,
           author: result.author.slice(0,6) + '...' + result.author.slice(-4),
-          createdAt: format(result.createdAt.toNumber() * 1000, 'dd MMM yyyy'),
+          createdAt: format(result.createdAt.toNumber() * 1000, 'dd MMM yyyy mm:ss'),
         }
         dispatch({ type: Actions.TOPIC_FETCHED, payload: topic });
       }
@@ -134,7 +134,7 @@ const fetchNextComment = () => async (dispatch, getState) => {
           id: result.id.toNumber(),
           message: result.message,
           author: result.author.slice(0,6) + '...' + result.author.slice(-4),
-          createdAt: format(result.createdAt.toNumber() * 1000, 'dd MMM yyyy'),
+          createdAt: format(result.createdAt.toNumber() * 1000, 'dd MMM yyyy mm:ss'),
         }
         dispatch({ type: Actions.COMMENT_FETCHED, payload: data });
       }

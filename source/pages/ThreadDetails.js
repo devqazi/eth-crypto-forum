@@ -32,6 +32,9 @@ const useStyles = makeStyles(theme => ({
   },
   comment: {
     margin: theme.spacing(2, 0),
+  },
+  img: {
+    width: '100%',
   }
 }));
 
@@ -69,7 +72,7 @@ const ThreadDetails = () => {
         <Paper className={classes.card} key={topicItem.author + topicItem.createdAt}>
           <Typography gutterBottom variant="h5">{topicItem.title}</Typography>
           <Typography gutterBottom variant="body1">{topicItem.message}</Typography>
-          {(topicItem.attachment && topicItem.attachment.length > 1) ?  <img src={'https://gateway.pinata.cloud/ipfs/' + topicItem.attachment} alt="attachment" /> : null}
+          {(topicItem.attachment && topicItem.attachment.length > 1) ?  <img className={classes.img} src={'https://gateway.pinata.cloud/ipfs/' + topicItem.attachment} alt="attachment" /> : null}
           <div className={classes.controls}>
             <PersonOutline />
             <span>{topicItem.author}</span>

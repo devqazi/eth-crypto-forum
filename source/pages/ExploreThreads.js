@@ -32,6 +32,9 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
   },
+  img: {
+    width: 90,
+  }
 }));
 
 const ExploreThreads = ({ }) => {
@@ -75,6 +78,7 @@ const ExploreThreads = ({ }) => {
           <Paper className={classes.card} key={index}>
             <Typography gutterBottom variant="h5">{topicItem.title}</Typography>
             <Typography gutterBottom variant="body1">{topicItem.message}</Typography>
+            {(topicItem.attachment && topicItem.attachment.length > 1) ?  <img className={classes.img} src={'https://gateway.pinata.cloud/ipfs/' + topicItem.attachment} alt="attachment" /> : null}
             <div className={classes.controls}>
               <PersonOutline />
               <span>{topicItem.author}</span>
